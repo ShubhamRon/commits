@@ -10,7 +10,7 @@ FILE_NAME="time_commit.txt"  # File to update with the current time
 cd $REPO_DIR
 
 # Create or update a file with the current time
-echo "Commit made at: $(date +"%Y-%m-%d %H:%M:%S")" > $FILE_NAME
+echo "Commit made at: $(date +"%Y-%m-%d %H:%M:%S")" >> $FILE_NAME
 
 # Stage changes
 git add $FILE_NAME
