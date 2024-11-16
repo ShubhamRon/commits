@@ -31,9 +31,8 @@ jobs:
 
     - name: Configure Git with PAT
       run: |
-        # Configure the remote to use HTTPS with the PAT
         git remote set-url origin https://github.com/${{ github.repository }}.git
-        # Store the credentials using the secret PAT
+        # Use GitHub's token to authenticate
         git config --global credential.helper store
         echo "https://${{ secrets.GH_TOKEN }}:@github.com" > ~/.git-credentials
 
