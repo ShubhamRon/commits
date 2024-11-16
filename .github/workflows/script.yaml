@@ -17,6 +17,11 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
+    - name: Set up Git author identity
+      run: |
+        git config --global user.email "vaibhavwateam@gmail.com"
+        git config --global user.name "ShubhamRon"
+
     - name: Set up environment
       run: |
         echo "Setting up environment"
@@ -26,7 +31,9 @@ jobs:
 
     - name: Configure Git with PAT
       run: |
+        # Configure the remote to use HTTPS with the PAT
         git remote set-url origin https://github.com/${{ github.repository }}.git
+        # Store the credentials using the secret PAT
         git config --global credential.helper store
         echo "https://${{ secrets.GH_TOKEN }}:@github.com" > ~/.git-credentials
 
@@ -34,3 +41,9 @@ jobs:
       run: |
         echo "Running setup script..."
         ./setup.sh
+
+    - name: Push changes to repo
+      run: |
+        git add .  # Add all changes to staging
+        git commit -m "Automated commit $(date +"%Y-%m-%d %H:%M:%S")"
+        git push origin main  # Push the changes to the main branch
