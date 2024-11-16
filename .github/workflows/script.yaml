@@ -12,8 +12,7 @@ on:
 jobs:
   run-workflows:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write  # Allow the GitHub token to push changes
+
     
     steps:
     - name: Checkout code
