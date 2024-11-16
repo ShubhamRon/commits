@@ -12,6 +12,8 @@ on:
 jobs:
   run-workflows:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Allow the GitHub token to push changes
     
     steps:
     - name: Checkout code
@@ -32,7 +34,6 @@ jobs:
     - name: Configure Git with PAT
       run: |
         git remote set-url origin https://github.com/${{ github.repository }}.git
-        # Use GitHub's token to authenticate
         git config --global credential.helper store
         echo "https://${{ secrets.GH_TOKEN }}:@github.com" > ~/.git-credentials
 
@@ -40,9 +41,3 @@ jobs:
       run: |
         echo "Running setup script..."
         ./setup.sh
-
-    - name: Push changes to repo
-      run: |
-        git add .  # Add all changes to staging
-        git commit -m "Automated commit $(date +"%Y-%m-%d %H:%M:%S")"
-        git push origin main  # Push the changes to the main branch
