@@ -1,20 +1,30 @@
 name: Run 25 times a day
 
 on:
+  workflow_dispatch:  # This allows you to manually trigger the workflow
   schedule:
+    # Runs every 2 minutes
     - cron: '*/2 * * * *'  # Run every 2 minutes
-    - cron: '*/3 * * * *'  # Run every 3 minutes
-    - cron: '*/4 * * * *'  # Run every 4 minutes
-    - cron: '*/5 * * * *'  # Run every 5 minutes
-    
+  push:
+    branches:
+      - main  # Trigger on push to the main branch
+
 jobs:
   run-workflows:
     runs-on: ubuntu-latest
+    
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
+
+    - name: Set up environment
+      run: |
+        echo "Setting up environment"
+        sudo apt-get update
+        sudo apt-get install -y git  # Ensure git is installed
+        sudo chmod +x setup.sh  # Make the setup.sh script executable
+
     - name: Run custom script
       run: |
-        echo "Running workflow..."
-        sudo chmod +x setup.sh
+        echo "Running setup script..."
         ./setup.sh
