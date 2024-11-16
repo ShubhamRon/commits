@@ -12,7 +12,8 @@ on:
 jobs:
   run-workflows:
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: write  # Allow the GitHub token to push changes
     
     steps:
     - name: Checkout code
@@ -22,20 +23,17 @@ jobs:
       run: |
         git config --global user.email "vaibhavwateam@gmail.com"
         git config --global user.name "ShubhamRon"
-
     - name: Set up environment
       run: |
         echo "Setting up environment"
         sudo apt-get update
         sudo apt-get install -y git  # Ensure git is installed
         sudo chmod +x setup.sh  # Make the setup.sh script executable
-
     - name: Configure Git with PAT
       run: |
         git remote set-url origin https://github.com/${{ github.repository }}.git
         git config --global credential.helper store
         echo "https://${{ secrets.GH_TOKEN }}:@github.com" > ~/.git-credentials
-
     - name: Run custom script
       run: |
         echo "Running setup script..."
