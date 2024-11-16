@@ -18,6 +18,12 @@ git add $FILE_NAME
 # Commit changes with a message
 git commit -m "$COMMIT_MSG"
 
+# Ensure that git push uses the GitHub token for authentication
+# This is critical when running this script in GitHub Actions
+git remote set-url origin https://github.com/${{ github.repository }}.git
+git config --global credential.helper store
+echo "https://${GH_TOKEN}:x-oauth-basic@github.com" > ~/.git-credentials
+
 # Push the commit to the repository
 git push origin $BRANCH
 
